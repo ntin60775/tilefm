@@ -1,0 +1,19 @@
+[Desktop Entry]
+Name=TileFM
+Comment=Tile-based File Manager for XFCE
+Exec=tilefm %U
+Icon=system-file-manager
+Terminal=false
+Type=Application
+Categories=System;FileTools;FileManager;
+MimeType=inode/directory;
+StartupNotify=true
+Actions=NewWindow;NewTile;
+
+[Desktop Action NewWindow]
+Name=New Window
+Exec=tilefm
+
+[Desktop Action NewTile]
+Name=New Tile
+Exec=tilefm --new-tile
