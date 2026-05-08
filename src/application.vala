@@ -1,12 +1,10 @@
 /* TileFM — Application class
- * Manages app lifecycle, settings, global actions
+ * Manages app lifecycle, CSS, global actions
  */
 
 namespace TileFm {
     public class Application : Gtk.Application {
         public static Application instance { get; private set; }
-        
-        private Settings settings;
         
         public Application() {
             Object(
@@ -46,26 +44,54 @@ namespace TileFm {
         protected override void startup() {
             base.startup();
             
-            // CSS styling
+            // CSS styling for grid-based tiles
             var css_provider = new Gtk.CssProvider();
             css_provider.load_from_data(
                 """
+                /* Tile styling */
                 .tilefm-tile {
                     border: 1px solid @borders;
                     border-radius: 4px;
                     background: @theme_base_color;
                 }
-                .tilefm-tile:focus {
+                .tilefm-tile-active {
                     border: 2px solid @theme_selected_bg_color;
+                    box-shadow: 0 0 6px alpha(@theme_selected_bg_color, 0.4);
                 }
+                
+                /* Pathbar styling */
                 .tilefm-pathbar {
                     padding: 4px 8px;
                     background: @theme_bg_color;
                     border-bottom: 1px solid @borders;
                 }
+                
+                /* Statusbar styling */
                 .tilefm-statusbar {
                     font-size: small;
                     padding: 2px 8px;
+                }
+                
+                /* Grid buttons in headerbar */
+                .tilefm-grid-btn {
+                    font-weight: bold;
+                    min-width: 28px;
+                    padding: 2px 6px;
+                }
+                
+                /* Scrollbar styling for tiles */
+                .tilefm-tile scrolledwindow {
+                    border-radius: 0 0 4px 4px;
+                }
+                
+                /* Icon view items */
+                .tilefm-tile iconview {
+                    padding: 8px;
+                }
+                
+                /* Tree view styling */
+                .tilefm-tile treeview {
+                    padding: 2px 0;
                 }
                 """
             );
@@ -90,6 +116,7 @@ namespace TileFm {
             });
             this.add_action(close_tile_action);
             
+            // Accelerators
             this.set_accels_for_action("app.new-tile", {"<Ctrl>t"});
             this.set_accels_for_action("app.close-tile", {"<Ctrl>w"});
             this.set_accels_for_action("app.quit", {"<Ctrl>q"});

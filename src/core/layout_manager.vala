@@ -1,11 +1,12 @@
 /* TileFM — LayoutManager
- * Save/load tile layouts as JSON
+ * Save/load tile layouts as JSON with grid columns
  */
 
 namespace TileFm {
     public class Layout : Object {
         public string name { get; set; }
-        public int version { get; set; default = 1; }
+        public int version { get; set; default = 2; }
+        public int grid_columns { get; set; default = 2; }
         public Gee.ArrayList<TileLayout> tiles { get; set; }
         
         public Layout() {
@@ -16,10 +17,6 @@ namespace TileFm {
     public class TileLayout : Object {
         public string path { get; set; }
         public string view_mode { get; set; default = "icon"; }
-        public int position_x { get; set; }
-        public int position_y { get; set; }
-        public int width { get; set; }
-        public int height { get; set; }
     }
     
     public class LayoutManager : Object {
@@ -49,7 +46,10 @@ namespace TileFm {
             builder.add_string_value(name);
             
             builder.set_member_name("version");
-            builder.add_int_value(1);
+            builder.add_int_value(2);
+            
+            builder.set_member_name("grid_columns");
+            builder.add_int_value(layout.grid_columns);
             
             builder.set_member_name("tiles");
             builder.begin_array();
@@ -59,14 +59,6 @@ namespace TileFm {
                 builder.add_string_value(tile.path);
                 builder.set_member_name("view_mode");
                 builder.add_string_value(tile.view_mode);
-                builder.set_member_name("position_x");
-                builder.add_int_value(tile.position_x);
-                builder.set_member_name("position_y");
-                builder.add_int_value(tile.position_y);
-                builder.set_member_name("width");
-                builder.add_int_value(tile.width);
-                builder.set_member_name("height");
-                builder.add_int_value(tile.height);
                 builder.end_object();
             }
             builder.end_array();
@@ -102,16 +94,20 @@ namespace TileFm {
                 layout.name = root.get_string_member("name") ?? name;
                 layout.version = (int) root.get_int_member("version");
                 
+                // Grid columns (v2+)
+                if (root.has_member("grid_columns")) {
+                    layout.grid_columns = (int) root.get_int_member("grid_columns");
+                } else {
+                    // v1 fallback: auto-detect from tile count
+                    layout.grid_columns = 2;
+                }
+                
                 var tiles_array = root.get_array_member("tiles");
                 for (uint i = 0; i < tiles_array.get_length(); i++) {
                     var tile_obj = tiles_array.get_object_element(i);
                     var tile = new TileLayout();
                     tile.path = tile_obj.get_string_member("path") ?? Environment.get_home_dir();
                     tile.view_mode = tile_obj.get_string_member("view_mode") ?? "icon";
-                    tile.position_x = (int) tile_obj.get_int_member("position_x");
-                    tile.position_y = (int) tile_obj.get_int_member("position_y");
-                    tile.width = (int) tile_obj.get_int_member("width");
-                    tile.height = (int) tile_obj.get_int_member("height");
                     layout.tiles.add(tile);
                 }
                 
