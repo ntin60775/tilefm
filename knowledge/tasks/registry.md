@@ -18,3 +18,8 @@
 
 | ID | Parent ID | Статус | Приоритет | Ветка | Каталог | Краткое описание |
 |----|-----------|--------|-----------|-------|---------|------------------|
+| TASK-2026-0001 | | merged | high | main | TASK-2026-0001-mvp-integration | Integrate MVP v1.0 feature set |
+| TASK-2026-0002 | | opened | high | main | TASK-2026-0002-navigation-shortcuts | Навигация и базовые операции (Alt+←/→/↑, XButton, Ctrl+L, breadcrumb edit, F5) |
+| TASK-2026-0003 | | opened | high | main | TASK-2026-0003-selection-file-ops | Selection и файловые операции (Ctrl+A/I, Ctrl+Shift+C/N, Shift+Delete, F2) |
+| TASK-2026-0004 | | opened | high | main | TASK-2026-0004-drag-drop | Drag & Drop между плитками (move, copy, link с модификаторами) |
+| TASK-2026-0005 | | opened | medium | main | TASK-2026-0005-ui-infrastructure | UI Infrastructure: Настройки, Справка по горячим клавишам (Ctrl+H), F1, О программе |
