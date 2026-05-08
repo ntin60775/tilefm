@@ -13,6 +13,7 @@ gobject_dep = dependency('gobject-2.0', version: '>= 2.50')
 gtk_dep = dependency('gtk+-3.0', version: '>= 3.22')
 gio_dep = dependency('gio-2.0', version: '>= 2.50')
 gee_dep = dependency('gee-0.8', version: '>= 0.20')
+json_dep = dependency('json-glib-1.0', version: '>= 1.0')
 
 # Configuration
 data_dir = get_option('datadir')

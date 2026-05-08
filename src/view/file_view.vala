@@ -24,7 +24,7 @@ namespace TileFm {
             { "text/uri-list", 0, 0 }
         };
         
-        public FileView(FileManager fm) {
+        protected FileView(FileManager fm) {
             Object(
                 orientation: Gtk.Orientation.VERTICAL,
                 spacing: 0

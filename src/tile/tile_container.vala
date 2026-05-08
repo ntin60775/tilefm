@@ -25,7 +25,7 @@ namespace TileFm {
             
             main_paned = new Gtk.Paned(Gtk.Orientation.HORIZONTAL);
             main_paned.expand = true;
-            add(main_paned);
+            pack_start(main_paned, true, true, 0);
         }
         
         public void add_tile(string? path = null) {
@@ -100,7 +100,7 @@ namespace TileFm {
         
         public void set_view_mode_for_active(ViewMode mode) {
             if (active_tile != null) {
-                active_tile.set_view_mode(mode);
+                active_tile.change_view_mode(mode);
             }
         }
         
@@ -180,7 +180,7 @@ namespace TileFm {
                 var mode = ViewMode.ICON;
                 if (tile_layout.view_mode == "list") mode = ViewMode.LIST;
                 if (tile_layout.view_mode == "details") mode = ViewMode.DETAILS;
-                tile.set_view_mode(mode);
+                tile.change_view_mode(mode);
             }
             
             rebuild_paned();

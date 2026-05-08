@@ -19,14 +19,11 @@ tilefm_deps = [
     gtk_dep,
     gio_dep,
     gee_dep,
+    json_dep,
 ]
 
 executable('tilefm',
     sources,
     dependencies: tilefm_deps,
     install: true,
-    vala_args: [
-        '--pkg=posix',
-        '--vapidir=' + meson.source_root() + '/vapi',
-    ],
 )

@@ -207,12 +207,14 @@ namespace TileFm {
             var model = selection.get_selected_rows(null);
             var paths = new string[0];
             
-            model.foreach((model, path, iter) => {
-                string filepath;
-                ((Gtk.ListStore) model).get(iter, Column.PATH, out filepath, -1);
-                paths += filepath;
-                return false;
-            });
+            foreach (var path in model) {
+                Gtk.TreeIter iter;
+                if (store.get_iter(out iter, path)) {
+                    string filepath;
+                    store.get(iter, Column.PATH, out filepath, -1);
+                    paths += filepath;
+                }
+            }
             
             return paths;
         }

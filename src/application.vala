@@ -36,7 +36,7 @@ namespace TileFm {
         }
         
         private MainWindow get_or_create_window() {
-            var windows = this.get_windows();
+            unowned var windows = this.get_windows();
             if (windows.length() > 0) {
                 return windows.data as MainWindow;
             }
@@ -76,27 +76,23 @@ namespace TileFm {
             );
             
             // Global actions
-            var actions = new SimpleActionGroup();
-            
             var new_tile_action = new SimpleAction("new-tile", null);
             new_tile_action.activate.connect(() => {
                 var window = get_or_create_window();
                 window.add_tile(Environment.get_home_dir());
             });
-            actions.add_action(new_tile_action);
+            this.add_action(new_tile_action);
             
             var close_tile_action = new SimpleAction("close-tile", null);
             close_tile_action.activate.connect(() => {
                 var window = get_or_create_window();
                 window.close_active_tile();
             });
-            actions.add_action(close_tile_action);
+            this.add_action(close_tile_action);
             
             this.set_accels_for_action("app.new-tile", {"<Ctrl>t"});
             this.set_accels_for_action("app.close-tile", {"<Ctrl>w"});
             this.set_accels_for_action("app.quit", {"<Ctrl>q"});
-            
-            this.insert_action_group("app", actions);
         }
     }
 }

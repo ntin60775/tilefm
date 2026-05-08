@@ -102,12 +102,10 @@ namespace TileFm {
                 var icon = info.get_icon();
                 if (icon != null) {
                     try {
-                        pixbuf = icon_theme.load_icon_for_scale(
+                        pixbuf = icon_theme.load_icon(
                             icon.to_string(),
-                            is_dir ? 48 : 48,
-                            icon_theme.get_icon_sizes(icon.to_string())[0],
-                            Gtk.IconLookupFlags.USE_BUILTIN,
-                            1
+                            48,
+                            Gtk.IconLookupFlags.USE_BUILTIN
                         );
                     } catch (Error e) {
                         // Fallback icon

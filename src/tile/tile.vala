@@ -133,7 +133,7 @@ namespace TileFm {
             path_changed(path);
         }
         
-        public void set_view_mode(ViewMode mode) {
+        public void change_view_mode(ViewMode mode) {
             if (view_mode == mode && current_view != null) {
                 return;
             }
@@ -152,10 +152,6 @@ namespace TileFm {
         
         public void refresh() {
             load_directory.begin(current_path);
-        }
-        
-        public string get_current_path() {
-            return current_path;
         }
         
         public Layout export_layout() {

@@ -26,6 +26,8 @@ namespace TileFm {
             
             // Open home directory in first tile
             add_tile(Environment.get_home_dir());
+            
+            this.show_all();
         }
         
         private void setup_ui() {

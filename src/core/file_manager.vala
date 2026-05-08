@@ -33,7 +33,7 @@ namespace TileFm {
                 FileAttribute.STANDARD_IS_SYMLINK + "," +
                 FileAttribute.STANDARD_SYMLINK_TARGET + "," +
                 FileAttribute.TIME_MODIFIED,
-                FileQueryFlags.NOFOLLOW_SYMLINKS,
+                0,
                 Priority.DEFAULT,
                 cancellable
             );
@@ -53,19 +53,16 @@ namespace TileFm {
             }
             
             // Sort: directories first, then alphabetically
-            GLib.qsort_with_data(
+            GLib.qsort_with_data<FileInfo>(
                 infos, sizeof(FileInfo),
                 (a, b) => {
-                    var info_a = (FileInfo) a;
-                    var info_b = (FileInfo) b;
-                    
-                    bool is_dir_a = info_a.get_file_type() == FileType.DIRECTORY;
-                    bool is_dir_b = info_b.get_file_type() == FileType.DIRECTORY;
+                    bool is_dir_a = a.get_file_type() == FileType.DIRECTORY;
+                    bool is_dir_b = b.get_file_type() == FileType.DIRECTORY;
                     
                     if (is_dir_a && !is_dir_b) return -1;
                     if (!is_dir_a && is_dir_b) return 1;
                     
-                    return info_a.get_display_name().collate(info_b.get_display_name());
+                    return a.get_display_name().collate(b.get_display_name());
                 }
             );
             
@@ -83,7 +80,7 @@ namespace TileFm {
                     FileAttribute.STANDARD_CONTENT_TYPE + "," +
                     FileAttribute.STANDARD_ICON + "," +
                     FileAttribute.TIME_MODIFIED,
-                    FileQueryFlags.NOFOLLOW_SYMLINKS
+                    0
                 );
             } catch (Error e) {
                 warning("Failed to get file info: %s", e.message);
@@ -187,9 +184,10 @@ namespace TileFm {
                 throw new IOError.INVALID_FILENAME("No parent directory");
             }
             var new_file = parent.get_child(new_name);
-            return yield file.set_display_name_async(
+            var renamed_file = yield file.set_display_name_async(
                 new_name, Priority.DEFAULT, cancellable
-            ) != null;
+            );
+            return renamed_file != null;
         }
         
         // Get parent directory
